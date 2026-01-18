@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Education Loan Assessment</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="education.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Buda:wght@300&family=Gravitas+One&family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body class="flex">
+
+  <!-- NAV BUTTONS -->
+  <button class="nav-btn back-btn">← Back</button>
+  <button class="nav-btn next-btn">Next →</button>
+
+  <div class="app">
+
+    <!-- ================= Q1 ================= -->
+    <main id="Q1" class="card">
+      <h2>What is the level of education you are pursuing?</h2>
+      <div class="options flex">
+        <button class="option-card flex cool">Undergraduate</button>
+        <button class="option-card flex warm">Postgraduate</button>
+        <button class="option-card flex cool">PhD</button>
+      </div>
+    </main>
+
+    <!-- ================= Q2 ================= -->
+    <main id="Q2" class="card hidden">
+      <h2>Which category does your college fall under?</h2>
+      <div class="options flex">
+        <button class="option-card flex cool">Tier 1</button>
+        <button class="option-card flex warm">Tier 2</button>
+        <button class="option-card flex cool">Tier 3</button>
+      </div>
+    </main>
+
+    <!-- ================= Q3 ================= -->
+    <main id="Q3" class="card hidden">
+      <h2>What is the nature of your course?</h2>
+      <div class="options flex">
+        <button class="option-card flex cool">Professional</button>
+        <button class="option-card flex warm">General</button>
+      </div>
+    </main>
+
+    <!-- ================= Q4 ================= -->
+    <main id="Q4" class="card hidden">
+      <h2>What is your annual course fee (INR)?</h2>
+      <div class="options flex">
+        <input type="number" id="courseFee" placeholder="Enter amount" />
+      </div>
+    </main>
+
+    <!-- ================= Q5 ================= -->
+    <main id="Q5" class="card hidden">
+      <h2>What is your family's annual income (INR)?</h2>
+      <div class="options flex">
+        <input type="number" id="familyIncome" placeholder="Enter amount" />
+      </div>
+    </main>
+
+    <!-- ================= Q6 ================= -->
+    <main id="Q6" class="card hidden">
+      <h2>Is there a co-applicant (parent/guardian)?</h2>
+      <div class="options flex">
+        <button class="option-card flex cool" id="q6-yes">Yes</button>
+        <button class="option-card flex warm" id="q6-no">No</button>
+      </div>
+    </main>
+
+    <!-- ================= Q7 (Conditional Yes from Q6) ================= -->
+    <main id="Q7" class="card hidden">
+      <h2>What is the co-applicant's credit score?</h2>
+      <div class="options flex">
+        <input type="number" id="coCreditScore" placeholder="Enter credit score" />
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ================= JS ================= -->
+  <script>
+  const cards = document.querySelectorAll(".card");
+  let current = 0;
+  let showQ7 = false;
+
+  const backBtn = document.querySelector(".back-btn");
+  const nextBtn = document.querySelector(".next-btn");
+
+  function showCard() {
+    cards.forEach((card, i) => {
+      card.classList.toggle("hidden", i !== current);
+    });
+
+    // submit text
+    if (
+      (cards[current].id === "Q6" && !showQ7) ||
+      cards[current].id === "Q7"
+    ) {
+      nextBtn.textContent = "Submit";
+    } else {
+      nextBtn.textContent = "Next →";
+    }
+  }
+
+  showCard();
+
+  // ================= OPTION SELECTION =================
+  document.querySelectorAll(".card").forEach(card => {
+    card.querySelectorAll(".option-card").forEach(option => {
+      option.addEventListener("click", () => {
+        card.querySelectorAll(".option-card").forEach(o =>
+          o.classList.remove("selected")
+        );
+        option.classList.add("selected");
+      });
+    });
+  });
+
+  // ================= Q6 YES / NO =================
+  const q6Yes = document.getElementById("q6-yes");
+  const q6No = document.getElementById("q6-no");
+
+  q6Yes.addEventListener("click", () => showQ7 = true);
+  q6No.addEventListener("click", () => showQ7 = false);
+
+  // ================= BACK =================
+  backBtn.addEventListener("click", () => {
+    if (current > 0) {
+      current--;
+      showCard();
+    } else {
+      window.location.href = "step1.html";
+    }
+  });
+
+  // ================= NEXT / SUBMIT =================
+  nextBtn.addEventListener("click", () => {
+
+    // SUBMIT
+    if (
+      (cards[current].id === "Q6" && !showQ7) ||
+      cards[current].id === "Q7"
+    ) {
+      submitToBackend();
+      return;
+    }
+
+    // SKIP Q7 IF NO
+    if (cards[current].id === "Q6" && !showQ7) {
+      return;
+    }
+
+    current++;
+    showCard();
+  });
+
+  // ================= SUBMIT =================
+  function submitToBackend() {
+    const payload = {
+      loan_type: "Education",
+      degree_level: document.querySelector("#Q1 .selected")?.textContent || "",
+      college_tier: document.querySelector("#Q2 .selected")?.textContent || "",
+      course_type: document.querySelector("#Q3 .selected")?.textContent || "",
+      annual_fees: Number(courseFee.value || 0),
+      family_income: Number(familyIncome.value || 0),
+      co_applicant: showQ7 ? "Yes" : "No",
+      credit_score: Number(coCreditScore?.value || 0)
+    };
+
+    console.log("FINAL PAYLOAD:", payload);
+
+    fetch("http://127.0.0.1:5000/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => console.log("RESPONSE:", data))
+    .catch(err => console.error(err));
+  }
+</script>
+
+
+
+</body>
+</html>
+
+
+
+
+

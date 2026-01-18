@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Business Loan Assessment</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Link CSS -->
+  <link rel="stylesheet" href="business.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body class="flex">
+
+  <!-- Back & Next Buttons -->
+  <button class="nav-btn back-btn">← Back</button>
+  <button class="nav-btn next-btn">Next →</button>
+
+  <div class="app">
+
+    <!-- Question 1 -->
+    <main id="Q1" class="card">
+      <h2>How many years old is your business?</h2>
+      <div class="options flex">
+        <input type="number" id="yearsOld" placeholder="Enter years" />
+      </div>
+    </main>
+
+    <!-- Question 2 -->
+    <main id="Q2" class="card hidden">
+      <h2>Annual revenue (INR)?</h2>
+      <div class="options flex">
+        <input type="number" id="annualRevenue" placeholder="Enter amount" />
+      </div>
+    </main>
+
+    <!-- Question 3 -->
+    <main id="Q3" class="card hidden">
+      <h2>Monthly business expenses (INR)?</h2>
+      <div class="options flex">
+        <input type="number" id="monthlyExpenses" placeholder="Enter amount" />
+      </div>
+    </main>
+
+    <!-- Question 4 -->
+    <main id="Q4" class="card hidden">
+      <h2>Business owner's credit score?</h2>
+      <div class="options flex">
+        <input type="number" id="creditScore" placeholder="Enter credit score" />
+      </div>
+    </main>
+
+    <!-- Question 5 (LAST – SUBMIT) -->
+    <main id="Q5" class="card hidden">
+      <h2>Existing monthly EMIs (INR)?</h2>
+      <div class="options flex">
+        <input type="number" id="existingEMIs" placeholder="Enter amount" />
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+  const cards = ["Q1","Q2","Q3","Q4","Q5"];
+  let current = 0;
+
+  const nextBtn = document.querySelector(".next-btn");
+  const backBtn = document.querySelector(".back-btn");
+
+  const showCard = index => {
+    cards.forEach((id,i) => {
+      document.getElementById(id).classList.toggle("hidden", i !== index);
+    });
+
+    // 🔥 Q5 pe Next → Submit
+    if (index === cards.length - 1) {
+      nextBtn.textContent = "Submit";
+    } else {
+      nextBtn.textContent = "Next →";
+    }
+  };
+
+  showCard(current);
+
+  // NEXT / SUBMIT
+  nextBtn.addEventListener("click", () => {
+    if (current < cards.length - 1) {
+      current++;
+      showCard(current);
+    } else {
+      submitBusinessData(); // already defined
+    }
+  });
+
+  // BACK
+  backBtn.addEventListener("click", () => {
+    if (current > 0) {
+      current--;
+      showCard(current);
+    } else {
+      window.location.href = "step1.html";
+    }
+  });
+
+  function submitBusinessData() {
+    const payload = {
+      type: "business",
+      business_age: Number(document.getElementById("yearsOld").value),
+      annual_revenue: Number(document.getElementById("annualRevenue").value),
+      monthly_expenses: Number(document.getElementById("monthlyExpenses").value),
+      credit_score: Number(document.getElementById("creditScore").value),
+      existing_emis: Number(document.getElementById("existingEMIs").value)
+    };
+
+    fetch("http://127.0.0.1:5000/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("RESULT:", data);
+      localStorage.setItem("result", JSON.stringify(data));
+    })
+    .catch(err => console.error(err));
+  }
+</script>
+
+
+</body>
+</html>
+
+

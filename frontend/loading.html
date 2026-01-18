@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FinSight AI Processing</title>
+  <link rel="stylesheet" href="loading.css">
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <div class="container">
+
+    <div class="header">
+      <h1>FinSight AI Assessment</h1>
+      <p>Evaluating Financial Readiness</p>
+    </div>
+
+    <!-- SEGMENTED LOADER -->
+    <div class="loader"></div>
+
+    <!-- LOADING TEXT -->
+    <div class="loading-text" id="loadingText">
+      Processing your responses…
+    </div>
+
+  </div>
+
+ <script>
+  const messages = [
+    "Processing your responses…",
+    "Fetching relevant financial data…",
+    "Calculating score attributes…",
+    "Finding best loan options for you...",
+    "Finalizing assessment…"
+  ];
+
+  let index = 0;
+  const textEl = document.getElementById("loadingText");
+
+  const interval = setInterval(() => {
+    index = (index + 1) % messages.length;
+    textEl.style.opacity = 0;
+    setTimeout(() => {
+      textEl.textContent = messages[index];
+      textEl.style.opacity = 0.9;
+    }, 300);
+  }, 2000);
+
+  // ================= STATE FLAGS =================
+  let backendDone = false;
+  let timerDone = false;
+
+  function tryRedirect() {
+    if (backendDone && timerDone) {
+      clearInterval(interval);
+      window.location.href = "result_medical.html";
+    }
+  }
+
+  // ================= FORCE 10 SEC TIMER =================
+  setTimeout(() => {
+    timerDone = true;
+    tryRedirect();
+  }, 10000);
+
+  // ================= BACKEND CALL =================
+  const payload = JSON.parse(localStorage.getItem("pendingPayload"));
+
+  if (!payload) {
+    alert("No data found");
+    window.location.href = "index.html";
+  }
+
+  payload.type = payload.loan_type.toLowerCase();
+
+  fetch("http://127.0.0.1:5000/predict", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log("BACKEND RESPONSE:", data);
+      localStorage.setItem("result", JSON.stringify(data));
+      localStorage.removeItem("pendingPayload");
+
+      backendDone = true;
+      tryRedirect();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Something went wrong. Try again.");
+      window.location.href = "index.html";
+    });
+</script>
+
+
+</body>
+</html>
+

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Personal Loan Assessment</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="personal.css" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body class="flex">
+
+  <!-- NAV BUTTONS -->
+  <button class="nav-btn back-btn" type="button">← Back</button>
+  <button class="nav-btn next-btn" id="nextBtn" type="button">Next →</button>
+
+  <div class="app">
+
+    <!-- Q1 -->
+    <main id="Q1" class="card">
+      <h2>What is your employment type?</h2>
+      <div class="options flex">
+        <button class="option-card" type="button">Salaried</button>
+        <button class="option-card" type="button">Self Employed</button>
+      </div>
+    </main>
+
+    <!-- Q2 -->
+    <main id="Q2" class="card hidden">
+      <h2>What is your monthly income (INR)?</h2>
+      <div class="options flex">
+        <input type="number" id="income" placeholder="Enter amount" />
+      </div>
+    </main>
+
+    <!-- Q3 -->
+    <main id="Q3" class="card hidden">
+      <h2>How many years of work experience do you have?</h2>
+      <div class="options flex">
+        <input type="number" id="experience" placeholder="Enter years" />
+      </div>
+    </main>
+
+    <!-- Q4 -->
+    <main id="Q4" class="card hidden">
+      <h2>What is your total monthly EMI obligations (INR)?</h2>
+      <div class="options flex">
+        <input type="number" id="emi" placeholder="Enter amount" />
+      </div>
+    </main>
+
+    <!-- Q5 -->
+    <main id="Q5" class="card hidden">
+      <h2>What is your credit score?</h2>
+      <div class="options flex">
+        <input type="number" id="credit" placeholder="Enter credit score" />
+      </div>
+    </main>
+
+    <!-- Q6 -->
+    <main id="Q6" class="card hidden">
+      <h2>What is your age?</h2>
+      <div class="options flex">
+        <input type="number" id="age" placeholder="Enter age" />
+      </div>
+    </main>
+
+  </div>
+
+  <!-- JS -->
+  <script>
+    // OPTION SELECT (glow stays)
+    document.addEventListener("click", e => {
+      const btn = e.target.closest(".option-card");
+      if (!btn) return;
+
+      btn.parentElement
+        .querySelectorAll(".option-card")
+        .forEach(b => b.classList.remove("selected"));
+
+      btn.classList.add("selected");
+    });
+
+    const cards = ["Q1","Q2","Q3","Q4","Q5","Q6"];
+    let current = 0;
+
+    function showCard(i) {
+      cards.forEach((id, idx) => {
+        document.getElementById(id).classList.toggle("hidden", idx !== i);
+      });
+
+      document.getElementById("nextBtn").textContent =
+        i === cards.length - 1 ? "Submit" : "Next →";
+    }
+
+    showCard(current);
+
+    // BACK
+    document.querySelector(".back-btn").addEventListener("click", () => {
+      if (current > 0) {
+        current--;
+        showCard(current);
+      } else {
+        window.location.href = "step1.html";
+      }
+    });
+
+    // NEXT / SUBMIT
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      if (current < cards.length - 1) {
+        current++;
+        showCard(current);
+      } else {
+
+        const payload = {
+          loan_type: "Personal",
+          employment_type: document.querySelector("#Q1 .option-card.selected")?.innerText || "",
+          monthly_income: Number(document.getElementById("income").value || 0),
+          job_experience: Number(document.getElementById("experience").value || 0),
+          existing_emis: Number(document.getElementById("emi").value || 0),
+          credit_score: Number(document.getElementById("credit").value || 0),
+          age: Number(document.getElementById("age").value || 0)
+        };
+
+        console.log("PERSONAL PAYLOAD:", payload);
+
+        // 🔥 SAME FLOW AS EDUCATION / BUSINESS
+        localStorage.setItem("pendingPayload", JSON.stringify(payload));
+        window.location.href = "loading.html";
+      }
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loan Reason</title>
+  <link rel="stylesheet" href="step.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Buda:wght@300&family=Gravitas+One&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Back Button -->
+  <button id="backbtn" class="back-btn" style="font-size: 25px; font-family: Roboto Condensed; font-weight: 1000;">← Back</button>
+
+  <div class="step-container fadeup">
+
+    <h1 class="question" style="font-size: 60px;font-family: Roboto Condensed">
+      What is your primary reason<br>
+      for seeking a loan?
+    </h1>
+
+    <!-- Options -->
+    <div class="options">
+
+      <div class="option-card">
+        <img src="education.png" alt="Education">
+      </div>
+
+      <div class="option-card warm">
+        <img src="business.png" alt="Business">
+      </div>
+
+      <div class="option-card">
+        <img src="medical.png" alt="Medical">
+      </div>
+
+      <div class="option-card warm">
+        <img src="personal.png" alt="Personal">
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Next Button (Optional) -->
+  <button class="next-btn" style="font-size: 25px; font-family: Roboto Condensed; font-weight: 1000;">NEXT →</button>
+
+  <script>
+    // Back button
+    const backbtn = document.getElementById("backbtn");
+    backbtn.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    // Option cards click navigation
+    document.querySelectorAll(".option-card").forEach(card => {
+      card.addEventListener("click", () => {
+        // remove previous selection
+        document.querySelectorAll(".option-card").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+
+        // Navigate based on image
+        const imgSrc = card.querySelector("img").getAttribute("src");
+
+        if (imgSrc === "education.png") window.location.href = "education.html";
+        if (imgSrc === "business.png") window.location.href = "business.html";
+        if (imgSrc === "medical.png") window.location.href = "medical.html";
+        if (imgSrc === "personal.png") window.location.href = "personal.html";
+      });
+    });
+  </script>
+
+</body>
+</html>
+
