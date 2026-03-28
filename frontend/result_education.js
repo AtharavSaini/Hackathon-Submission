@@ -85,8 +85,28 @@ window.onload = () => {
 
   if (findMoreBtn) {
     findMoreBtn.onclick = () => {
-      window.location.href = "index.html";
+      window.location.href = "step1.html";
     };
   }
+  /* ============ BOOST SCORE BUTTON (EDUCATION) ============ */
+
+const boostBtn = document.querySelector(".actions .primary");
+
+if (boostBtn) {
+  boostBtn.onclick = () => {
+
+    // 🔒 ensure education result saved
+    const data = JSON.parse(localStorage.getItem("education_result"));
+
+    if (!data) {
+      alert("No education loan data found");
+      return;
+    }
+
+    // 🚀 redirect to boost page
+    window.location.href = "boost_education.html";
+  };
+}
+
 
 };

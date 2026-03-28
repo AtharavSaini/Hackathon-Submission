@@ -1,0 +1,221 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: url("bg2.jpeg") no-repeat center center fixed;
+  background-size: cover;
+  color: #eef6f6;
+}
+
+.page {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px 60px;
+}
+
+/* ================= SCORE ================= */
+
+.score-section {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.score-title {
+  font-size: 15px;
+  letter-spacing: 3px;
+  opacity: 0.85;
+  margin-bottom: 10px;
+}
+
+/* ================= METER ================= */
+
+.score-meter {
+  position: relative;
+  width: 260px;
+  height: 130px;
+  margin: 30px auto;
+  overflow: hidden;
+}
+
+.meter-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 260px 260px 0 0;
+  background: conic-gradient(
+    from 180deg,
+    #ff2d2d 0deg,
+    #ff2d2d 45deg,
+    #ffb703 90deg,
+    #4dd599 135deg,
+    #4dd599 180deg
+  );
+}
+
+.meter-bg::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 205px;
+  height: 100px;
+  background: #0b1d2a;
+  border-radius: 205px 205px 0 0;
+  transform: translateX(-50%);
+}
+
+/* ================= NEEDLE ================= */
+
+.meter-needle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  height: 105px;
+  background: #ffffff;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-90deg);
+  transition: transform 1.5s ease-out;
+  border-radius: 2px;
+  z-index: 5;
+  box-shadow: 0 0 12px rgba(255,255,255,0.9);
+}
+
+/* ================= SCORE VALUE ================= */
+
+.score-value {
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+  font-size: 44px;
+  font-weight: 600;
+  z-index: 6;
+}
+
+/* ================= LABELS ================= */
+
+.score-labels {
+  display: flex;
+  justify-content: space-between;
+  max-width: 340px;
+  margin: 18px auto 0;
+  font-size: 12px;
+  letter-spacing: 1px;
+  opacity: 0.75;
+}
+
+/* ================= LOANS ================= */
+
+.loan-section h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.loan-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.45);
+  padding: 18px 20px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+/* 🔥 HOVER EFFECT */
+.loan-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  background: rgba(79,213,153,0.22);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+
+.loan-card.highlight {
+  border: 1px solid rgba(79,213,153,0.6);
+}
+
+.loan-left h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.details {
+  color: #7fbfff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* ================= ACTION BUTTONS ================= */
+
+.actions {
+  margin-top: 45px;
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+}
+
+.actions button {
+  padding: 14px 28px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.primary {
+  background: linear-gradient(135deg, #4dd599, #2bb3a3);
+  color: #06251f;
+  font-weight: 600;
+}
+
+.secondary {
+  background: rgba(255,255,255,0.14);
+  color: #eef6f6;
+}
+.score-labels span {
+  transition: all 0.3s ease;
+  opacity: 0.5;
+}
+
+.score-labels span.active {
+  opacity: 1;
+  font-weight: 700;
+}
+
+.score-labels span.poor { color: #ff2d2d; }
+.score-labels span.fair { color: #ff8c42; }
+.score-labels span.good { color: #ffd166; }
+.score-labels span.excellent { color: #4dd599; }
+
+/* ================= ACTION BUTTON HOVER ================= */
+
+.actions button {
+  transition: all 0.3s ease;
+}
+
+/* PRIMARY BUTTON */
+.actions .primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(77, 213, 153, 0.35);
+  filter: brightness(1.05);
+}
+
+/* SECONDARY BUTTON */
+.actions .secondary:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: rgba(255,255,255,0.2);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+
+
+
+
+
+
+

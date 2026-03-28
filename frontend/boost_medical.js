@@ -97,7 +97,7 @@ window.onload = () => {
   /* ============ ACTION BUTTONS ============ */
 
   document.getElementById("recalculateBtn").onclick = () => {
-    window.location.href = "index.html";
+    window.location.href = "medical.html";
   };
 
   document.getElementById("exploreLoansBtn").onclick = () => {

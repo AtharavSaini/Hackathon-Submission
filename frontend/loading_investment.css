@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: url("bg2.jpeg") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #eaf6f6;
+}
+
+/* Dark overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 24, 0.75);
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.header {
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.header h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.header p {
+  font-size: 14px;
+  opacity: 0.75;
+  margin-top: 6px;
+}
+
+.status {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* ===== SEGMENTED AI LOADER ===== */
+.loader {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 30px;
+  border-radius: 50%;
+
+  background:
+    conic-gradient(
+      #9fe3d8 0deg 28deg,
+      transparent 28deg 42deg,
+      #9fe3d8 42deg 70deg,
+      transparent 70deg 84deg,
+      #9fe3d8 84deg 112deg,
+      transparent 112deg 126deg,
+      #9fe3d8 126deg 154deg,
+      transparent 154deg 168deg,
+      #9fe3d8 168deg 196deg,
+      transparent 196deg 210deg,
+      #9fe3d8 210deg 238deg,
+      transparent 238deg 252deg,
+      #9fe3d8 252deg 280deg,
+      transparent 280deg 360deg
+    );
+
+  /* Ring cut */
+  mask: radial-gradient(circle, transparent 58%, black 60%);
+
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Loading text */
+.loading-text {
+  font-size: 16px;
+  letter-spacing: 0.4px;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}

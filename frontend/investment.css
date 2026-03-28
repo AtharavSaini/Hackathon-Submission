@@ -1,0 +1,193 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto Condensed", system-ui, sans-serif;
+}
+
+body {
+  height: 100vh;
+  background-image: url("business-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #f3e9e3;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
+
+.app {
+  width: 100%;
+  max-width: 1200px;
+  padding: 24px;
+}
+
+.card {
+  background: rgba(122, 62, 24, 0.38);
+  border-radius: 18px;
+  padding: 32px;
+  max-width: 800px;
+  height: 500px;
+  margin: 0 auto 60px;
+  text-align: center;
+
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 0 45px rgba(122, 62, 24, 0.65),
+    inset 0 0 18px rgba(255,255,255,0.12);
+}
+
+.card h2 {
+  font-size: 38px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.options,
+.options3 {
+  margin-top: 80px;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.options3 {
+  margin-top: 60px;
+}
+
+/* MCQ */
+.option-card {
+  width: 340px;
+  height: 56px;
+  border-radius: 16px;
+  font-size: 22px;
+  color: #fff;
+  cursor: pointer;
+
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(200,120,60,0.45);
+
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 0 18px rgba(122,62,24,0.45),
+    inset 0 0 8px rgba(255,255,255,0.15);
+
+  transition: all 0.25s ease;
+}
+
+.option-card:hover {
+  box-shadow:
+    0 0 32px rgba(200,120,60,0.9),
+    inset 0 0 12px rgba(255,255,255,0.25);
+}
+
+.option-card.selected {
+  border-color: rgba(200,120,60,0.95);
+  background: rgba(255,255,255,0.14);
+  box-shadow:
+    0 0 40px rgba(200,120,60,0.85),
+    inset 0 0 14px rgba(255,255,255,0.3);
+}
+
+/* INPUT */
+.options input {
+  width: 360px;
+  height: 64px;
+  padding: 14px 20px;
+  font-size: 22px;
+  text-align: center;
+  color: #fff;
+
+  background: rgba(255,255,255,0.08);
+  border-radius: 16px;
+  border: 2px solid rgba(200,120,60,0.45);
+
+  backdrop-filter: blur(12px);
+  outline: none;
+
+  box-shadow:
+    0 0 20px rgba(122,62,24,0.45),
+    inset 0 0 10px rgba(255,255,255,0.18);
+
+  transition: all 0.3s ease;
+}
+
+.options input:focus {
+  transform: scale(1.18);
+  border-color: rgba(200,120,60,0.95);
+  box-shadow:
+    0 0 40px rgba(200,120,60,0.85),
+    inset 0 0 14px rgba(255,255,255,0.3);
+}
+
+/* NAV */
+.nav-btn {
+  position: fixed;
+  padding: 12px 28px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+
+  border-radius: 999px;
+  border: 1.5px solid rgba(200,120,60,0.6);
+  background: rgba(122,62,24,0.35);
+
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 0 22px rgba(122,62,24,0.55),
+    inset 0 0 10px rgba(255,255,255,0.18);
+
+  transition: all 0.25s ease;
+}
+
+.back-btn {
+  top: 24px;
+  left: 32px;
+}
+
+.next-btn {
+  bottom: 32px;
+  right: 32px;
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 36px rgba(200,120,60,0.9),
+    inset 0 0 12px rgba(255,255,255,0.3);
+}
+/* Q2 INDUSTRY GRID FIX */
+#Q2 .options3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 28px;
+  justify-items: center;
+  margin-top: 50px;
+}
+/* Q6 FUNDING OPTIONS FIX */
+#Q6 .options3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 28px;
+  justify-items: center;
+  margin-top: 50px;
+}
+
+
+
+@media (max-width: 600px) {
+  .option-card,
+  .options input {
+    width: 90%;
+    font-size: 18px;
+  }
+}

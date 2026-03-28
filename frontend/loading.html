@@ -52,11 +52,23 @@
   let timerDone = false;
 
   function tryRedirect() {
-    if (backendDone && timerDone) {
-      clearInterval(interval);
+  if (backendDone && timerDone) {
+    clearInterval(interval);
+
+    const loanType = payload.loan_type.toLowerCase();
+
+    if (loanType === "medical") {
       window.location.href = "result_medical.html";
+    } else if (loanType === "education") {
+      window.location.href = "result_education.html";
+    } else if (loanType === "personal") {
+      window.location.href = "result_personal.html";
+    } else if (loanType === "business") {
+      window.location.href = "result_business.html";
     }
   }
+}
+
 
   // ================= FORCE 10 SEC TIMER =================
   setTimeout(() => {
@@ -81,13 +93,18 @@
   })
     .then(res => res.json())
     .then(data => {
-      console.log("BACKEND RESPONSE:", data);
-      localStorage.setItem("result", JSON.stringify(data));
-      localStorage.removeItem("pendingPayload");
+    console.log("BACKEND RESPONSE:", data);
 
-      backendDone = true;
-      tryRedirect();
-    })
+    const loanType = payload.loan_type.toLowerCase();
+localStorage.setItem(`${loanType}_result`, JSON.stringify(data));
+ 
+
+    localStorage.removeItem("pendingPayload");
+
+    backendDone = true;
+    tryRedirect();
+})
+
     .catch(err => {
       console.error(err);
       alert("Something went wrong. Try again.");

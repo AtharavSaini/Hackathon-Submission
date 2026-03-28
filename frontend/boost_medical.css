@@ -207,6 +207,18 @@ body {
     box-shadow: 0 20px 45px rgba(77, 213, 153, 0.25);
     background: rgba(255,255,255,0.12);
 }
+.after-improvement {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+/* Hover pe bhi shaant rahe */
+.after-improvement:hover {
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: scale(1.03); /* thoda classy movement, zyada bakchodi nahi */
+}
 
 
 

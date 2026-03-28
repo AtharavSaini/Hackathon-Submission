@@ -85,7 +85,7 @@ window.onload = () => {
 
   if (findMoreBtn) {
     findMoreBtn.onclick = () => {
-      window.location.href = "index.html";
+      window.location.href = "step1.html";
     };
   }
   

@@ -19,9 +19,10 @@ lp?.addEventListener("click", () => {
 ip?.addEventListener("click", () => {
   selectedLoanType = "Investment";
   localStorage.setItem("selectedLoanType", selectedLoanType);
-  page1.classList.remove("hidden");
-  homepage.classList.add("hidden");
+
+  window.location.href = "investment.html";
 });
+
 
 back1?.addEventListener("click", () => {
   page1.classList.add("hidden");
@@ -205,6 +206,18 @@ function buildPayload() {
       age: Number(personalAnswers.age)
     };
   }
+  if (selectedLoanType === "Investment") {
+  return {
+    loan_type: "Investment",
+    startup_stage: investmentAnswers.startupStage,
+    industry: investmentAnswers.industry,
+    monthly_revenue: Number(investmentAnswers.monthlyRevenue),
+    growth_rate: Number(investmentAnswers.growthRate),
+    founder_experience: investmentAnswers.founderExperience,
+    funding_required: investmentAnswers.fundingRequired
+  };
+}
+
 }
 
 // ================= SUBMIT TO BACKEND =================
@@ -214,6 +227,12 @@ function submitToBackend() {
   console.log("SENDING TO BACKEND:", payload);
 
   localStorage.setItem("pendingPayload", JSON.stringify(payload));
-  window.location.href = "loading.html";
+
+  if (selectedLoanType === "Investment") {
+    window.location.href = "loading_investment.html";
+  } else {
+    window.location.href = "loading.html";
+  }
 }
+
 

@@ -84,9 +84,20 @@ window.onload = () => {
 
   if (findMoreBtn) {
     findMoreBtn.onclick = () => {
-      window.location.href = "index.html";
+      window.location.href = "step1.html";
     };
   }
+
+  /* ================= BOOST MY SCORE ================= */
+
+const boostBtn = document.querySelector(".actions .primary");
+
+if (boostBtn) {
+  boostBtn.onclick = () => {
+    window.location.href = "boost_medical.html";
+  };
+}
+
 
 };
 

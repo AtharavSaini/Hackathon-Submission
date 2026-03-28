@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Startup Investment Assessment</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="investment.css" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body class="flex">
+
+  <!-- NAV -->
+  <button class="nav-btn back-btn" type="button">← Back</button>
+  <button class="nav-btn next-btn" id="nextBtn" type="button">Next →</button>
+
+  <div class="app">
+
+    <!-- Q1 -->
+    <main id="Q1" class="card">
+      <h2>What stage is your startup at?</h2>
+      <div class="options3 flex">
+        <button class="option-card">Idea</button>
+        <button class="option-card">MVP</button>
+        <button class="option-card">Revenue</button>
+        <button class="option-card">Scaling</button>
+      </div>
+    </main>
+
+    <!-- Q2 -->
+    <main id="Q2" class="card hidden">
+      <h2>Which industry does your startup operate in?</h2>
+      <div class="options3 flex">
+        <button class="option-card">FinTech</button>
+        <button class="option-card">EdTech</button>
+        <button class="option-card">HealthTech</button>
+        <button class="option-card">E‑commerce</button>
+        <button class="option-card">SaaS</button>
+        <button class="option-card">Other</button>
+      </div>
+    </main>
+
+    <!-- Q3 -->
+    <main id="Q3" class="card hidden">
+      <h2>What is your current monthly revenue (INR)?</h2>
+      <div class="options flex">
+        <input type="number" id="revenue" placeholder="Enter monthly revenue" />
+      </div>
+    </main>
+
+    <!-- Q4 -->
+    <main id="Q4" class="card hidden">
+      <h2>What is your monthly user growth rate (%)?</h2>
+      <div class="options flex">
+        <input type="number" id="growth" placeholder="Enter growth percentage" />
+      </div>
+    </main>
+
+    <!-- Q5 -->
+    <main id="Q5" class="card hidden">
+      <h2>Do founders have prior startup or industry experience?</h2>
+      <div class="options flex">
+        <button class="option-card">Yes</button>
+        <button class="option-card">No</button>
+      </div>
+    </main>
+
+    <!-- Q6 -->
+    <main id="Q6" class="card hidden">
+      <h2>How much funding are you seeking (INR)?</h2>
+      <div class="options3 flex">
+        <button class="option-card">Below ₹25 Lakhs</button>
+        <button class="option-card">₹25L – ₹50L</button>
+        <button class="option-card">₹50L – ₹1 Crore</button>
+        <button class="option-card">₹1 – ₹5 Crore</button>
+        <button class="option-card">Above ₹5 Crore</button>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- JS -->
+  <script>
+    // option select glow
+    document.addEventListener("click", e => {
+      const btn = e.target.closest(".option-card");
+      if (!btn) return;
+
+      btn.parentElement
+        .querySelectorAll(".option-card")
+        .forEach(b => b.classList.remove("selected"));
+
+      btn.classList.add("selected");
+    });
+
+    const cards = ["Q1","Q2","Q3","Q4","Q5","Q6"];
+    let current = 0;
+
+    function showCard(i) {
+      cards.forEach((id, idx) => {
+        document.getElementById(id).classList.toggle("hidden", idx !== i);
+      });
+
+      document.getElementById("nextBtn").textContent =
+        i === cards.length - 1 ? "Submit" : "Next →";
+    }
+
+    showCard(current);
+
+    // BACK
+    document.querySelector(".back-btn").onclick = () => {
+      if (current > 0) {
+        current--;
+        showCard(current);
+      } else {
+        window.location.href = "index.html";
+      }
+    };
+
+    // NEXT / SUBMIT
+    document.getElementById("nextBtn").onclick = () => {
+      if (current < cards.length - 1) {
+        current++;
+        showCard(current);
+      } else {
+        const payload = {
+          loan_type: "Investment",
+          startup_stage: document.querySelector("#Q1 .option-card.selected")?.innerText || "",
+          industry: document.querySelector("#Q2 .option-card.selected")?.innerText || "",
+          monthly_revenue: Number(document.getElementById("revenue").value || 0),
+          growth_rate: Number(document.getElementById("growth").value || 0),
+          founder_experience: document.querySelector("#Q5 .option-card.selected")?.innerText || "",
+          funding_required: document.querySelector("#Q6 .option-card.selected")?.innerText || ""
+        };
+
+        console.log("INVESTMENT PAYLOAD:", payload);
+        localStorage.setItem("pendingPayload", JSON.stringify(payload));
+        window.location.href = "loading_investment.html";
+      }
+    };
+  </script>
+
+</body>
+</html>
